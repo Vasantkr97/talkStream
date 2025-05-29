@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 
 export async function signup(req, res) {
-    const { email, password, fullName } = req.body();
+    const { fullName, email, password } = req.body;
 
     try {
         if (!email || !password || !fullName) {
@@ -28,12 +28,15 @@ export async function signup(req, res) {
         const ind = Math.floor(Math.random()*100) + 1 //generate a num between 1-100
         const randomAvatar = `https://avatar.iran.liara.run/public/${ind}.png`
 
-        const newUser = new User.create({
+        const newUser = await User.create({
             email,
             fullName,
             password,
             profilePic: randomAvatar,
         });
+
+
+        
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, {
             expiresIn: "7d"
@@ -55,13 +58,43 @@ export async function signup(req, res) {
 };
 
 
+export async function login(req, res) {
+    const { email, password } = req.body;
 
-export function login(req, res) {
-    res.send("login route")
+    try {
+        if (!email || !password) {
+            return res.status(400).json({ msg: "All fields are required!"});
+        };
+
+        const user = await User.findOne({ email });
+        console.log("user",user)
+        if (!user) return res.status(404).json({ msg: "Invalid email or password"});
+
+        const isPasswordCorrect = await user.matchPassword(password);
+
+        if (!isPasswordCorrect) return res.status(401).json({ msg: "Invalid password" });
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+            expiresIn: "7d",
+        });
+
+        res.cookie("jwt", token, {
+            maxAge: 7*24*60*60*1000,
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === "production",
+        })
+        
+        res.status(200).json({ success: true, user });
+    
+    } catch (error) {
+        console.log("Error in login controller", error.message);
+        res.status(500).json({ msg: "interval server Error"});
+    }
 };
 
 
-
 export function logout(req, res) {
-    res.send("logout route")
+    res.clearCookie("jwt")
+    res.status(200).json({ success: true, msg: "logout successfull"});
 }
