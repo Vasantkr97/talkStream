@@ -93,7 +93,7 @@ export async function login(req, res) {
             sameSite: "strict",
             secure: process.env.NODE_ENV === "production",
         })
-        
+        0
         res.status(200).json({ success: true, user });
     
     } catch (error) {
@@ -156,3 +156,4 @@ export async function onboard(req, res) {
         res.status(500).json({ message: "Internal server Error"})
     }
 }
+
