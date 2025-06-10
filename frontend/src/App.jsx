@@ -7,19 +7,25 @@ import CallPage from './pages/CallPage'
 import ChatPage from './pages/ChatPage'
 import OnboardingPage from './pages/OnboardingPage'
 import { Toaster } from 'react-hot-toast'
+import useAuthUser from './hooks/useAuthUser.js'
 
 const App = () => {
-  
+  const { isLoading, authUser } = useAuthUser();
+
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isOnboarded;
+
+
   return (
-    <div className='h-screen' data-theme="night">
+    <div className='h-screen' data-theme="dark">
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/signup' element={<SignUpPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path='/call' element={<CallPage />} />
-        <Route path='/chat' element={<ChatPage />} />
-        <Route path='/onboarding' element={<OnboardingPage />} />
+        <Route path='/' element={ isAuthenticated ? <HomePage /> : <SignUpPage />} />
+        <Route path='/signup' element={!isAuthenticated ? <SignUpPage /> : <HomePage />} />
+        <Route path='/login' element={ !isAuthenticated ? <LoginPage /> : <HomePage />} />
+        <Route path="/notifications" element={ isAuthenticated ? <NotificationsPage /> : <LoginPage />} />
+        <Route path='/call' element={ isAuthenticated ? <CallPage /> : <LoginPage />} />
+        <Route path='/chat' element={ isAuthenticated ? <ChatPage /> : <LoginPage />} />
+        <Route path='/onboarding' element={ isAuthenticated ? <OnboardingPage /> : <LoginPage />} />
       </Routes>
 
       <Toaster />
