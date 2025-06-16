@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "./axios";
 
 export const getAuthUser = async () => {
@@ -10,7 +9,6 @@ export const getAuthUser = async () => {
     return null;
   }
 };
-
 
 export const signup = async (signupData) => {
       const response = await axiosInstance.post("/auth/signup", signupData);
