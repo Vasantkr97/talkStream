@@ -8,6 +8,7 @@ import ChatPage from './pages/ChatPage'
 import OnboardingPage from './pages/OnboardingPage'
 import { Toaster } from 'react-hot-toast'
 import useAuthUser from './hooks/useAuthUser.js'
+import Layout from './components/Layout.jsx'
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -30,7 +31,20 @@ const App = () => {
   return (
     <div className='h-screen' data-theme="dark">
       <Routes>
-        <Route path='/' element={ isAuthenticated && isOnboarded ? ( <HomePage /> ) :  <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />} />
+        <Route 
+          path='/' 
+          element={ isAuthenticated && isOnboarded ? 
+          ( <Layout showSidebar={true}> 
+              <HomePage /> 
+            </Layout>
+          ) : (
+            <Navigate to={!isAuthenticated ?
+             "/login" : 
+             "/onboarding"} />
+            )
+          } 
+    
+        />
         <Route path='/signup' element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/onboarding" />} />
         <Route path='/login' element={ !isAuthenticated ? <LoginPage /> : <Navigate to={ isOnboarded ? "/" : "/onboarding"} />} />
         <Route path="/notifications" element={ isAuthenticated && isOnboarded ? <NotificationsPage /> : <Navigate to="/login" />} />
