@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react"
 import { Link } from "react-router";
-import { axiosInstance } from "../lib/axios";
 import { signup } from "../lib/api";
+import useSignup from "../hooks/useSignup";
 
 
 const SignUpPage = () => {
@@ -19,10 +19,12 @@ const SignUpPage = () => {
   //   mutationFn: () => queryClient.invalidateQueries({ queryKey: ["authUser"]})
   // });
 
-  const { mutate:SignUpMutation, isPending, error } = useMutation({
-    mutationFn: signup,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"]}),
-  });
+  // const { mutate:SignUpMutation, isPending, error } = useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"]}),
+  // });
+
+  const { isPending, error, SignUpMutation } =useSignup();
 
   const handleSignUp = (e) => {
     e.preventDefault()
@@ -38,7 +40,7 @@ const SignUpPage = () => {
             <div className="mb-4 flex items-center justify-start gap-2"> 
               <ShipWheelIcon className="size-9 text-primary" />
               <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-                Talk Stream
+                TalkStream
               </span>
             </div>
 
@@ -117,6 +119,7 @@ const SignUpPage = () => {
                         </label>
                       </div>
                     </div>
+                    
                     <button className="btn btn-primary w-full" type="submit">
                       {isPending ? (
                         <>
