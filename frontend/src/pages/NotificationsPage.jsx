@@ -1,8 +1,13 @@
 import React from 'react'
+import { useThemeStore } from '../store/useThemeStore'
 
 const NotificationsPage = () => {
+  const { theme } = useThemeStore();
+
   return (
-    <div>NotificationsPage</div>
+    <div data-theme={theme}>
+      NotificationsPage
+    </div>
   )
 }
 
