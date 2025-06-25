@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "./axios";
 
 export const getAuthUser = async () => {
@@ -48,7 +47,8 @@ export const getUserFriends = async () => {
 };
 
 export const getRecommendedUsers = async () => {
-  const response = axiosInstance.get("/users");
+  const response = await axiosInstance.get("/users");
+  console.log(response)
   return response.data;
 };
 
