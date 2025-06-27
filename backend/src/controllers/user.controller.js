@@ -44,7 +44,7 @@ export async function sendFriendRequest(req, res) {
         const myId = req.user.id;
         const { id: recipientId } = req.params;
 
-        if (mtId === recipientId) {
+        if (myId === recipientId) {
             return res.status(400).json({ message: "You can't send friends request to yourself"});
         };
 
@@ -78,7 +78,7 @@ export async function sendFriendRequest(req, res) {
         res.status(201).json(friendRequest);
 
     } catch (error) {
-        console.error("Error in sendFriendRequest controller", error.message );
+        console.error("Error in sendFriend Request controller", error.message );
         res.status(500).json({ message: "internal Server Error"});
     }
 };

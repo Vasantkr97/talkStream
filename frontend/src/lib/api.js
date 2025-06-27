@@ -32,7 +32,7 @@ export const completeOnboarding = async (userData) => {
 
 
 export const getOutgoingFriendReqs = async () => {
-  const response = await axiosInstance.get("/users/outgoing-friends-requests");
+  const response = await axiosInstance.get("/users/outgoing-friend-requests");
   return response.data;
 };
 
@@ -42,13 +42,12 @@ export const sendFriendRequest =  async (userId) => {
 };
 
 export const getUserFriends = async () => {
-  const response = axiosInstance.get("/users/friends");
+  const response = await axiosInstance.get("/users/friends");
   return response.data;
 };
 
 export const getRecommendedUsers = async () => {
   const response = await axiosInstance.get("/users");
-  console.log(response)
   return response.data;
 };
 
