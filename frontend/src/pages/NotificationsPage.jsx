@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { acceptFriendRequest, getFriendRequests } from "../lib/api";
-import { UserCheckIcon } from "lucide-react";
+import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-react";
+import NoNotificationsFound from "../components/NoNotificationsFound";
 
 
 const NotificationsPage = () => {
@@ -48,7 +49,7 @@ const NotificationsPage = () => {
                       className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="card-body p-4">
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="avatar w-14 h-14 rounded-full bg-base-300">
                               <img src={request.sender.profilePic} alt={request.sender.fullName} />
@@ -81,6 +82,50 @@ const NotificationsPage = () => {
               </section>
             )}
           </>
+        )}
+
+        {acceptedRequests.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold flex items-center gap-2">
+              <BellIcon className="h-5 w-5 text-success" />
+              New Connections
+            </h2>
+
+            <div className="space-y-3">
+              {acceptedRequests.map((notification) => (
+                <div key={notification._id} className="card bg-base-200 shadow-sm">
+                  <div className="card-body p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="avatar mt-1 size-10 rounded-full">
+                        <img 
+                          src={notification.recipient.profilePic} 
+                          alt={notification.recipient.fullName} 
+                        />
+
+                        <div className="flex-1">
+                          <h3 className="font-semibold">{notification.recipient.fullName}</h3>
+                          <p className="text-sm-my-1">
+                            {notification.recipient.fullName} accepted your friend request
+                          </p>
+                          <p className="text-sm flex items-center opacity-70">
+                            <ClockIcon className="h-3 w-3 mr-1" />
+                            Recently
+                          </p>
+                        </div>
+                        <div className="badge badge-success">
+                          <MessageSquareIcon className="h-3 w-3 mr-1" />
+                          New Friend
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {incomingRequests.length === 0 && acceptedRequests.length === 0 && (
+          <NoNotificationsFound />
         )}
       </div>
     </div>

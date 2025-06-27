@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react"
 import { Link } from "react-router";
@@ -41,7 +40,7 @@ const SignUpPage = () => {
             {/* LOGO */}
             <div className="mb-4 flex items-center justify-start gap-2"> 
               <ShipWheelIcon className="size-9 text-primary" />
-              <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+              <span className="text-3xl font-bold font-sans bg-clip-text text-transparent bg-gradient-to-r from-violet-700 to-violet-800 tracking-wider">
                 TalkStream
               </span>
             </div>

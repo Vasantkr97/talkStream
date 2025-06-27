@@ -33,7 +33,7 @@ const App = () => {
 
 
   return (
-    <div className='h-screen' data-theme={theme}>
+    <div className='' data-theme={theme}>
       <Routes>
         <Route 
           path='/' 
